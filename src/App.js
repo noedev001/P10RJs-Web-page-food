@@ -1,24 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import { GlobalStyles } from "./components/Globals.styles";
+import styled from 'styled-components';
+import { useState } from "react";
+import { ThemeProvider } from "styled-components";
+import NavBar from "./components/layout/nav/NavBar";
+import HeroSection from "./components/sections/hero-section/HeroSection";
+
+
+const Container = styled.div`
+height: 100vh;
+padding: 0 100px;
+position: relative;
+`;
+
+const LightTheme = {
+  background: "white",
+  fontColor: 'black'
+};
+
+const DarkTheme = {
+  background: "black",
+  fontColor: 'white'
+};
+
 
 function App() {
+  const [theme, setTheme] = useState("dark");
+
+  const toggleTheme = () => {
+    console.log('dentro');
+    theme === "light" ? setTheme("dark") : setTheme("light");
+  };
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme === "light" ? LightTheme : DarkTheme}>
+      <Container>
+        <GlobalStyles />
+        <NavBar theme={theme} toggleTheme={toggleTheme} />
+        <HeroSection />
+      </Container>
+    </ThemeProvider>
+
   );
 }
 
